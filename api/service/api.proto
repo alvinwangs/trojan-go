@@ -49,12 +49,32 @@ message GetUsersRequest {
     User user = 1;
 }
 
+message GetUsersTrafficRequest {
+    repeated User users = 1;
+}
+
+message ResetUsersTrafficRequest {
+    repeated User users = 1;
+}
+message ResetUsersTrafficResponse {
+    /**
+    response reset failure users
+     */
+    repeated User users = 1;
+}
+
 message GetUsersResponse {
     bool success = 1;
     string info = 2;
     UserStatus status = 3;
 }
 
+message GetUsersTrafficResponse {
+    /**
+        <hash,Traffic>
+     */
+    map<string, Traffic> traffics = 1;
+}
 message SetUsersRequest {
     enum Operation {
         Add = 0;
@@ -72,6 +92,8 @@ message SetUsersResponse {
 
 service TrojanClientService {
     rpc GetTraffic(GetTrafficRequest) returns(GetTrafficResponse){}
+    rpc GetTraffics(GetUsersTrafficRequest) returns (GetUsersTrafficResponse){}
+    rpc ResetTraffics(ResetUsersTrafficRequest) returns (ResetUsersTrafficResponse){}
 }
 
 service TrojanServerService {

@@ -33,11 +33,13 @@ type User struct {
 	recvLimiter *rate.Limiter
 	ctx         context.Context
 	cancel      context.CancelFunc
+	connected   bool
 }
 
 func (u *User) Close() error {
 	u.ResetTraffic()
 	u.cancel()
+	u.connected = false
 	return nil
 }
 
@@ -69,6 +71,7 @@ func (u *User) DelIP(ip string) bool {
 		return false
 	}
 	delete(u.ipTable, ip)
+	u.connected = true
 	return true
 }
 
@@ -180,7 +183,6 @@ func (a *Authenticator) AuthUser(hash string) (bool, statistic.User) {
 	}
 	return false, nil
 }
-
 func (a *Authenticator) AddUser(hash string) error {
 	a.Lock()
 	defer a.Unlock()

@@ -30,3 +30,5 @@ require (
 )
 
 replace v2ray.com/core => github.com/v2ray/v2ray-core v0.0.0-20200603100350-6b5d2fed91c0
+
+replace github.com/p4gefau1t/trojan-go => ./
