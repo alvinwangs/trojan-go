@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/trojan-go:$COMMIT_SHA', '.' ]
+    id: build_image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [  'tag', 'gcr.io/$PROJECT_ID/trojan-go:$COMMIT_SHA', 'gcr.io/$PROJECT_ID/trojan-go:latest' ]
+    id: build_latest_image
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/trojan-go:$COMMIT_SHA']
+    id: push_sha_image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/trojan-go:latest']
+    id: push_latest_image
+timeout: '1600s'
